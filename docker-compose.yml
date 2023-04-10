@@ -1,0 +1,19 @@
+services:
+  wavenet:
+    image: tf-wavnet
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./corpus:/usr/src/corpus
+      - ./logdir:/usr/src/logdir
+    ports:
+      - 6006:6006
+    command: tail -F anything
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
